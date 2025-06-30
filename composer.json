@@ -1,0 +1,20 @@
+{
+    "name": "haaragard/circuit-breaker",
+    "description": "A circuit breaker implementation package.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Haaragard\\CircuitBreaker\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Haaragard"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.0"
+    }
+}
