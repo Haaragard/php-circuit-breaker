@@ -42,6 +42,9 @@ class CircuitBreakerFactory
         return $this->app->make($serviceClass, [
             'config' => new Config(
                 enabled: config("circuit-breaker.enabled", false),
+                timeout: $serviceConfig['timeout'],
+                failureThreshold: $serviceConfig['failure_threshold'],
+                resetTimeout: $serviceConfig['reset_timeout'],
             ),
         ]);
     }
