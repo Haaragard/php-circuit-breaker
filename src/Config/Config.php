@@ -14,6 +14,7 @@ class Config
         private int $failureThreshold,
         private int $resetTimeout,
     ) {
+        $this->validate();
     }
 
     private function validate(): void
