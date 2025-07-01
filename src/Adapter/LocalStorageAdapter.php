@@ -22,19 +22,16 @@ class LocalStorageAdapter implements CircuitBreakerInterface
             return true;
         }
 
+        $this->reset($key);
+
         if (! isset($this->container[$key])) {
             return true;
         }
-
-        $register = $this->container[$key];
-        if ($register['failures'] >= $this->config->getFailureThreshold()) {
-            $timeFromLastFailure = Carbon::now()->diffInMilliseconds($register['last_failure']);
-            if ($timeFromLastFailure <= $this->config->getFailureThreshold()) {
-                return false;
-            }
+        if ($this->container[$key]['failures'] < $this->config->getFailureThreshold()) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public function recordFailure(string $key): void
@@ -42,6 +39,8 @@ class LocalStorageAdapter implements CircuitBreakerInterface
         if (! $this->config->isEnabled()) {
             return;
         }
+
+        $this->reset($key);
 
         if (! isset($this->container[$key])) {
             $this->container[$key] = [
@@ -52,8 +51,10 @@ class LocalStorageAdapter implements CircuitBreakerInterface
             return;
         }
 
-        $timeFromLastFailure = Carbon::now()->diffInMilliseconds($this->container[$key]['last_failure']);
-        if ($timeFromLastFailure > $this->config->getResetTimeout()) {
+        $isLastFailureExpired = $this->isLastFailureExpiredFromCounter($key);
+        if ($isLastFailureExpired) {
+            $this->forceReset($key);
+
             $this->container[$key] = [
                 'failures' => 1,
                 'last_failure' => Carbon::now()->toDateTimeImmutable(),
@@ -68,7 +69,12 @@ class LocalStorageAdapter implements CircuitBreakerInterface
 
     public function recordSuccess(string $key): void
     {
-        $this->reset($key);
+        if (! $this->config->isEnabled()) {
+            return;
+        }
+        if (isset($this->container[$key])) {
+            unset($this->container[$key]);
+        }
     }
 
     public function reset(string $key): void
@@ -76,9 +82,45 @@ class LocalStorageAdapter implements CircuitBreakerInterface
         if (! $this->config->isEnabled()) {
             return;
         }
-
-        if (isset($this->container[$key])) {
+        if (! isset($this->container[$key])) {
+            return;
+        }
+        if ($this->isLastFailureExpiredForReset($key)) {
             unset($this->container[$key]);
         }
+    }
+
+    public function forceReset(string $key): void
+    {
+        if (! $this->config->isEnabled()) {
+            return;
+        }
+        if (! isset($this->container[$key])) {
+            return;
+        }
+
+        unset($this->container[$key]);
+    }
+
+    private function isLastFailureExpiredFromCounter(string $key): bool
+    {
+        $lastFailure = Carbon::make($this->container[$key]['last_failure']);
+        if (is_null($lastFailure)) {
+            return false;
+        }
+        $lastFailure->addMilliseconds($this->config->getTimeout());
+
+        return Carbon::now()->gt($lastFailure->toDateTimeImmutable());
+    }
+
+    private function isLastFailureExpiredForReset(string $key): bool
+    {
+        $lastFailure = Carbon::make($this->container[$key]['last_failure']);
+        if (is_null($lastFailure)) {
+            return false;
+        }
+        $lastFailure->addMilliseconds($this->config->getResetTimeout());
+
+        return Carbon::now()->gt($lastFailure->toDateTimeImmutable());
     }
 }
