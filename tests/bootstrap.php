@@ -2,4 +2,4 @@
 
 declare(strict_types=1);
 
-include_once 'bootstrap.php';
+require __DIR__ . '../vendor/autoload.php';
