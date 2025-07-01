@@ -20,12 +20,9 @@ class CircuitBreakerFactory
     /**
      * @throws InvalidArgumentException|BindingResolutionException
      */
-    public function invoke(?string $service = null): CircuitBreakerInterface
+    public function invoke(): CircuitBreakerInterface
     {
-        if (is_null($service)) {
-            $service = config('circuit-breaker.service');
-        }
-
+        $service = config('circuit-breaker.service');
         $serviceConfig = config("circuit-breaker.services.{$service}");
         if (is_null($serviceConfig)) {
             throw new InvalidArgumentException("Service configuration for '{$service}' not found.");
