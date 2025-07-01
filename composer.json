@@ -24,5 +24,8 @@
                 "Haaragard\\CircuitBreaker\\CircuitBreakerServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.3@dev"
     }
 }
