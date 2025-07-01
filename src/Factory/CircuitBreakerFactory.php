@@ -28,7 +28,7 @@ class CircuitBreakerFactory
             throw new InvalidArgumentException("Service configuration for '{$service}' not found.");
         }
 
-        $serviceClass = $serviceConfig['service'] ?? $this->getDefaultLocalStorageAdapter();
+        $serviceClass = $serviceConfig['service'] ?? $this->resolveDefaultLocalStorageAdapter();
         if (! class_exists($serviceClass)) {
             throw new InvalidArgumentException("Service class '{$serviceClass}' does not exist.");
         }
@@ -46,7 +46,7 @@ class CircuitBreakerFactory
         ]);
     }
 
-    private function getDefaultLocalStorageAdapter(): string
+    private function resolveDefaultLocalStorageAdapter(): string
     {
         return LocalStorageAdapter::class;
     }
