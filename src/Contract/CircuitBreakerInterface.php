@@ -10,4 +10,5 @@ interface CircuitBreakerInterface
     public function recordFailure(string $key): void;
     public function recordSuccess(string $key): void;
     public function reset(string $key): void;
+    public function forceReset(string $key): void;
 }
