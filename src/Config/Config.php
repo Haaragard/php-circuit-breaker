@@ -10,9 +10,9 @@ class Config
 {
     public function __construct(
         private bool $enabled,
-        private int $timeout = 5000, // Timeout in milliseconds
-        private int $failureThreshold = 5, // Number of failures before circuit opens
-        private int $resetTimeout = 30000, // Time in milliseconds before circuit resets
+        private int $timeout,
+        private int $failureThreshold,
+        private int $resetTimeout,
     ) {
     }
 
