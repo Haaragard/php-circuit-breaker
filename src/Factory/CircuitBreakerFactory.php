@@ -7,6 +7,7 @@ namespace Haaragard\CircuitBreaker\Factory;
 use Haaragard\CircuitBreaker\Adapter\LocalStorageAdapter;
 use Haaragard\CircuitBreaker\Config\Config;
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
+use Haaragard\CircuitBreaker\Contract\ConfigInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use InvalidArgumentException;
@@ -28,7 +29,7 @@ class CircuitBreakerFactory
             throw new InvalidArgumentException("Service configuration for '{$service}' not found.");
         }
 
-        $serviceClass = $serviceConfig['service'] ?? $this->getDefaultLocalStorageAdapter();
+        $serviceClass = $serviceConfig['service'] ?? $this->resolveDefaultLocalStorageAdapter();
         if (! class_exists($serviceClass)) {
             throw new InvalidArgumentException("Service class '{$serviceClass}' does not exist.");
         }
@@ -36,18 +37,32 @@ class CircuitBreakerFactory
             throw new InvalidArgumentException("Service class '{$serviceClass}' must implement " . CircuitBreakerInterface::class);
         }
 
+        $isCircuitBreakerEnabled = config('circuit-breaker.enabled', false);
+
         return $this->app->make($serviceClass, [
-            'config' => new Config(
-                enabled: config("circuit-breaker.enabled", false),
-                timeout: $serviceConfig['timeout'],
-                failureThreshold: $serviceConfig['failure_threshold'],
-                resetTimeout: $serviceConfig['reset_timeout'],
+            'config' => $this->resolveConfig(
+                $serviceClass,
+                $isCircuitBreakerEnabled,
+                $serviceConfig
             ),
         ]);
     }
 
-    private function getDefaultLocalStorageAdapter(): string
+    private function resolveDefaultLocalStorageAdapter(): string
     {
         return LocalStorageAdapter::class;
+    }
+
+    private function resolveConfig(string $serviceClass, bool $isEnabled, array $config): ConfigInterface
+    {
+        return match ($serviceClass) {
+            LocalStorageAdapter::class => new Config(
+                enabled: $isEnabled,
+                timeout: $config['timeout'],
+                failureThreshold: $config['failure_threshold'],
+                resetTimeout: $config['reset_timeout'],
+            ),
+            default => throw new InvalidArgumentException("Unsupported service class '{$serviceClass}'."),
+        };
     }
 }

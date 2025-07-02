@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Haaragard\CircuitBreaker\Adapter;
 
-use Haaragard\CircuitBreaker\Config\Config;
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
+use Haaragard\CircuitBreaker\Contract\ConfigInterface;
 use Illuminate\Support\Carbon;
 
 class LocalStorageAdapter implements CircuitBreakerInterface
 {
     private array $container = [];
 
-    public function __construct(private Config $config)
+    public function __construct(private ConfigInterface $config)
     {
     }
 

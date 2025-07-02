@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace Haaragard\CircuitBreaker\Config;
 
+use Haaragard\CircuitBreaker\Contract\ConfigInterface;
 use InvalidArgumentException;
 
-class Config
+class Config implements ConfigInterface
 {
     public function __construct(
-        private bool $enabled,
-        private int $timeout,
-        private int $failureThreshold,
-        private int $resetTimeout,
+        protected bool $enabled,
+        protected int $timeout,
+        protected int $failureThreshold,
+        protected int $resetTimeout,
     ) {
         $this->validate();
     }
 
-    private function validate(): void
+    protected function validate(): void
     {
         if ($this->timeout <= 0) {
             throw new InvalidArgumentException('Timeout must be a positive integer.');
