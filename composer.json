@@ -29,7 +29,7 @@
                 "Haaragard\\CircuitBreaker\\Provider\\ServiceProvider"
             ],
             "dont-discover": [
-                "Haaragard\\Test\\",
+                "Haaragard\\Test\\*",
                 "phpunit/phpunit",
                 "orchestra/testbench"
             ]
