@@ -33,7 +33,7 @@ class CircuitBreakerFactory
         if (! class_exists($serviceClass)) {
             throw new InvalidArgumentException("Service class '{$serviceClass}' does not exist.");
         }
-        if (! (get_class($serviceClass) instanceof CircuitBreakerInterface)) {
+        if (! in_array(CircuitBreakerInterface::class, class_implements($serviceClass), true)) {
             throw new InvalidArgumentException("Service class '{$serviceClass}' must implement " . CircuitBreakerInterface::class);
         }
 
