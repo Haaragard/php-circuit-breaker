@@ -12,30 +12,18 @@
          beStrictAboutChangesToGlobalState="true">
 
     <testsuites>
+        <testsuite name="Feature">
+            <directory>./Feature</directory>
+        </testsuite>
         <testsuite name="Unit">
-            <directory>./</directory>
-        </testsuite>
-        <testsuite name="Config">
-            <directory>./Config</directory>
-        </testsuite>
-        <testsuite name="Adapter">
-            <directory>./Adapter</directory>
-        </testsuite>
-        <testsuite name="Factory">
-            <directory>./Factory</directory>
-        </testsuite>
-        <testsuite name="Provider">
-            <directory>./Provider</directory>
+            <directory>./Unit</directory>
         </testsuite>
     </testsuites>
 
     <source>
         <include>
-            <directory suffix=".php">../src</directory>
+            <directory>../tests</directory>
         </include>
-        <exclude>
-            <directory>../src/Config/circuit-breaker.php</directory>
-        </exclude>
     </source>
 
     <coverage includeUncoveredFiles="true"
@@ -43,16 +31,16 @@
               ignoreDeprecatedCodeUnits="true"
               disableCodeCoverageIgnore="false">
         <report>
-            <html outputDirectory="../coverage/html" lowUpperBound="50" highLowerBound="80"/>
-            <text outputFile="../coverage/coverage.txt" showUncoveredFiles="true" showOnlySummary="false"/>
-            <xml outputDirectory="../coverage/xml"/>
+            <html outputDirectory="../tests/coverage/html" lowUpperBound="50" highLowerBound="80"/>
+            <text outputFile="../tests/coverage/coverage.txt" showUncoveredFiles="true" showOnlySummary="false"/>
+            <xml outputDirectory="../tests/coverage/xml"/>
         </report>
     </coverage>
 
     <logging>
-        <testdoxHtml outputFile="../coverage/testdox.html"/>
-        <testdoxText outputFile="../coverage/testdox.txt"/>
-        <junit outputFile="../coverage/junit.xml"/>
+        <testdoxHtml outputFile="../tests/coverage/testdox.html"/>
+        <testdoxText outputFile="../tests/coverage/testdox.txt"/>
+        <junit outputFile="../tests/coverage/junit.xml"/>
     </logging>
 
     <php>
