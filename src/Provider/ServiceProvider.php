@@ -6,6 +6,7 @@ namespace Haaragard\CircuitBreaker\Provider;
 
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
 use Haaragard\CircuitBreaker\Factory\CircuitBreakerFactory;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -18,7 +19,7 @@ class ServiceProvider extends BaseServiceProvider
         );
         $this->app->bind(
             abstract: CircuitBreakerInterface::class,
-            concrete: CircuitBreakerFactory::class
+            concrete: static fn (Application $app) => $app->make(CircuitBreakerFactory::class)()
         );
     }
 
