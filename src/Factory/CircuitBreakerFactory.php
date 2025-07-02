@@ -21,7 +21,7 @@ class CircuitBreakerFactory
     /**
      * @throws InvalidArgumentException|BindingResolutionException
      */
-    public function invoke(): CircuitBreakerInterface
+    public function __invoke(): CircuitBreakerInterface
     {
         $service = config('circuit-breaker.service');
         $serviceConfig = config("circuit-breaker.services.{$service}");
