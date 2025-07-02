@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Haaragard\Test\Unit\Config;
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;

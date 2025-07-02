@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Adapter;
+namespace Haaragard\Test\Unit\Adapter;
 
 use Haaragard\CircuitBreaker\Adapter\LocalStorageAdapter;
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
