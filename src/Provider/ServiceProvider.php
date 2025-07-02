@@ -22,11 +22,11 @@ class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../../Config/circuit-breaker.php' => config_path('circuit-breaker.php'),
+            __DIR__ . '/../Config/circuit-breaker.php' => config_path('circuit-breaker.php'),
         ], 'config');
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../../Config/circuit-breaker.php',
+            __DIR__ . '/../Config/circuit-breaker.php',
             'circuit-breaker'
         );
     }
