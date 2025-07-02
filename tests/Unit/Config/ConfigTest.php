@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Haaragard\Test\Unit\Config;
 
 use Haaragard\Test\Unit\UnitTestCase;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Haaragard\CircuitBreaker\Config\Config;
