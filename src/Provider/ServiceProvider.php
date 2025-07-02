@@ -6,13 +6,16 @@ namespace Haaragard\CircuitBreaker\Provider;
 
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
 use Haaragard\CircuitBreaker\Factory\CircuitBreakerFactory;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
+class ServiceProvider extends BaseServiceProvider
 {
     public function register(): void
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/circuit-breaker.php',
+            'circuit-breaker'
+        );
         $this->app->bind(
             abstract: CircuitBreakerInterface::class,
             concrete: CircuitBreakerFactory::class
@@ -24,12 +27,5 @@ class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
         $this->publishes([
             __DIR__.'/../Config/circuit-breaker.php' => config_path('circuit-breaker.php'),
         ], 'haaragard-circuit-breaker-config');
-    }
-
-    public function provides(): array
-    {
-        return [
-            CircuitBreakerInterface::class => CircuitBreakerFactory::class,
-        ];
     }
 }
