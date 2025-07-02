@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-         bootstrap="../vendor/autoload.php"
+         bootstrap="./vendor/autoload.php"
          colors="true"
-         cacheDirectory="../.phpunit.cache"
+         cacheDirectory="./.phpunit.cache"
          testdox="true"
          failOnWarning="true"
          failOnRisky="true"
@@ -31,16 +31,16 @@
               ignoreDeprecatedCodeUnits="true"
               disableCodeCoverageIgnore="false">
         <report>
-            <html outputDirectory="../tests/coverage/html" lowUpperBound="50" highLowerBound="80"/>
-            <text outputFile="../tests/coverage/coverage.txt" showUncoveredFiles="true" showOnlySummary="false"/>
-            <xml outputDirectory="../tests/coverage/xml"/>
+            <html outputDirectory="./tests/coverage/html" lowUpperBound="50" highLowerBound="80"/>
+            <text outputFile="./tests/coverage/coverage.txt" showUncoveredFiles="true" showOnlySummary="false"/>
+            <xml outputDirectory="./tests/coverage/xml"/>
         </report>
     </coverage>
 
     <logging>
-        <testdoxHtml outputFile="../tests/coverage/testdox.html"/>
-        <testdoxText outputFile="../tests/coverage/testdox.txt"/>
-        <junit outputFile="../tests/coverage/junit.xml"/>
+        <testdoxHtml outputFile="./tests/coverage/testdox.html"/>
+        <testdoxText outputFile="./tests/coverage/testdox.txt"/>
+        <junit outputFile="./tests/coverage/junit.xml"/>
     </logging>
 
     <php>
