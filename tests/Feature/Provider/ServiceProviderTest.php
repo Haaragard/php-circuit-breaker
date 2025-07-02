@@ -7,7 +7,6 @@ namespace Haaragard\Test\Feature\Provider;
 use Haaragard\CircuitBreaker\Adapter\LocalStorageAdapter;
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
 use Haaragard\Test\Feature\FeatureTestCase;
-use Orchestra\Testbench\Concerns\WithWorkbench;
 use PHPUnit\Framework\Attributes\Test;
 
 class ServiceProviderTest extends FeatureTestCase
