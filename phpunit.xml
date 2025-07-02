@@ -13,16 +13,16 @@
 
     <testsuites>
         <testsuite name="Feature">
-            <directory>./Feature</directory>
+            <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
         <testsuite name="Unit">
-            <directory>./Unit</directory>
+            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
 
     <source>
         <include>
-            <directory>../tests</directory>
+            <directory>./tests</directory>
         </include>
     </source>
 
