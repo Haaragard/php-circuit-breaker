@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Haaragard\\CircuitBreaker\\": "src/"
+            "Haaragard\\CircuitBreaker\\": "src/",
+            "Haaragard\\Test\\": "tests/"
         }
     },
     "authors": [
@@ -26,6 +27,11 @@
         "laravel": {
             "providers": [
                 "Haaragard\\CircuitBreaker\\Provider\\ServiceProvider"
+            ],
+            "dont-discover": [
+                "Haaragard\\Test\\",
+                "phpunit/phpunit",
+                "orchestra/testbench"
             ]
         }
     }
