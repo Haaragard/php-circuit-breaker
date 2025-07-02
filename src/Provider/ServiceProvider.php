@@ -24,7 +24,7 @@ class ServiceProvider extends BaseServiceProvider implements DeferrableProvider
         $configPath = __DIR__.'/../Config/circuit-breaker.php';
         $this->publishes([
             $configPath => config_path('circuit-breaker.php'),
-        ], 'circuit-breaker-config');
+        ], 'haaragard-circuit-breaker-config');
         $this->mergeConfigFrom(
             $configPath,
             'circuit-breaker'
