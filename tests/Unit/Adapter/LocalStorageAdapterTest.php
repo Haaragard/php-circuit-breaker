@@ -7,13 +7,13 @@ namespace Haaragard\Test\Unit\Adapter;
 use Haaragard\CircuitBreaker\Adapter\LocalStorageAdapter;
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
 use Haaragard\CircuitBreaker\Contract\ConfigInterface;
+use Haaragard\Test\Unit\UnitTestCase;
 use Illuminate\Support\Carbon;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class LocalStorageAdapterTest extends TestCase
+class LocalStorageAdapterTest extends UnitTestCase
 {
     private LocalStorageAdapter $adapter;
 

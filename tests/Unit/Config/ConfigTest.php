@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Haaragard\Test\Unit\Config;
 
-use PHPUnit\Framework\TestCase;
+use Haaragard\Test\Unit\UnitTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Haaragard\CircuitBreaker\Config\Config;
 
-class ConfigTest extends TestCase
+class ConfigTest extends UnitTestCase
 {
     #[Test]
     public function constructorWithValidParameters(): void
