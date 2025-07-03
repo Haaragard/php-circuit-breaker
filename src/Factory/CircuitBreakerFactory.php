@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Haaragard\CircuitBreaker\Factory;
 
+use Haaragard\CircuitBreaker\Adapter\CacheStorageAdapter;
 use Haaragard\CircuitBreaker\Adapter\LocalStorageAdapter;
+use Haaragard\CircuitBreaker\Config\CacheConfig;
 use Haaragard\CircuitBreaker\Config\Config;
+use Haaragard\CircuitBreaker\Contract\CacheConfigInterface;
 use Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface;
 use Haaragard\CircuitBreaker\Contract\ConfigInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -53,7 +56,7 @@ class CircuitBreakerFactory
         return LocalStorageAdapter::class;
     }
 
-    private function resolveConfig(string $serviceClass, bool $isEnabled, array $config): ConfigInterface
+    private function resolveConfig(string $serviceClass, bool $isEnabled, array $config): ConfigInterface|CacheConfigInterface
     {
         return match ($serviceClass) {
             LocalStorageAdapter::class => new Config(
@@ -61,6 +64,14 @@ class CircuitBreakerFactory
                 timeout: $config['timeout'],
                 failureThreshold: $config['failure_threshold'],
                 resetTimeout: $config['reset_timeout'],
+            ),
+            CacheStorageAdapter::class => new CacheConfig(
+                enabled: $isEnabled,
+                timeout: $config['timeout'],
+                failureThreshold: $config['failure_threshold'],
+                resetTimeout: $config['reset_timeout'],
+                keyPrefix: $config['key_prefix'],
+                cacheConnection: $config['cache_connection'],
             ),
             default => throw new InvalidArgumentException("Unsupported service class '{$serviceClass}'."),
         };
