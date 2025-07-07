@@ -225,3 +225,27 @@ return [
     ],
 ];
 ```
+
+### Custom Circuit Breaker Drivers
+
+If you need a custom circuit breaker driver, you can create one by implementing the `CircuitBreakerInterface` interface.
+
+```php
+<?php
+
+// circuit-breaker.php
+
+return [
+    'enabled' => true,
+    'service' => 'my_own_driver',
+    'services' => [
+        'my_own_driver' => [
+            // You can define any configuration you need for your custom driver here.
+            // ...
+
+            'service' => \PathToMyOwnDriver\MyOwnDriver::class, // Mandatory. Needs to implement the `CircuitBreakerInterface`
+            'config' => \PathToMyOwnDriverConfig\MyOwnDriverConfig::class, // Mandatory.
+        ],
+    ],
+];
+```
