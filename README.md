@@ -207,7 +207,6 @@ and works as expected with the Laravel Cache facade.
 
 ```php
 <?php
-
 // circuit-breaker.php
 
 return [
@@ -232,7 +231,6 @@ If you need a custom circuit breaker driver, you can create one by implementing 
 
 ```php
 <?php
-
 // circuit-breaker.php
 
 return [
