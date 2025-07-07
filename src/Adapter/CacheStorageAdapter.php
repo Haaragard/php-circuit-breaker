@@ -119,10 +119,8 @@ class CacheStorageAdapter implements CircuitBreakerInterface
     {
         $lastFailureKey = $this->resolveKey($key) . self::CACHE_KEY_SUFFIX_LAST_FAILURE;
         $lastFailureTimestamp = $this->cacheRepository->get($lastFailureKey, 0);
+
         $lastFailure = Carbon::createFromTimestamp($lastFailureTimestamp);
-        if (is_null($lastFailure)) {
-            return false;
-        }
         $lastFailure->addMilliseconds($this->config->getTimeout());
 
         return Carbon::now()->gt($lastFailure->toDateTimeImmutable());
