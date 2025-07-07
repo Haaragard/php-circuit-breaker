@@ -60,6 +60,145 @@ You can change the default configuration by publishing the config file and modif
 php artisan vendor:publish --tag=haaragard-circuit-breaker-config
 ```
 
+### Configs
+
+Key: `enabled` - (`bool`) If set to `true`, the circuit breaker will be enabled. If set to `false`, it will be disabled.
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'enabled' => true,
+];
+```
+
+Key: `service` - (`string`) The service to use for the circuit breaker. This can be any **key** service that is listed on `services` **array**.
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'service' => 'default',
+];
+```
+
+Key: `services` - (`array`) The services that can be used for the circuit breaker. Each service must have a `service` key that points to the class that implements the `CircuitBreakerInterface`.
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'timeout' => 10_000,
+            'failure_threshold' => 5,
+            'reset_timeout' => 30_000,
+            'key_prefix' => 'circuit-breaker:',
+            'cache_connection' => 'default', // Any cache connection supported by Laravel, plus the custom ones.
+            'service' => \Haaragard\CircuitBreaker\Adapter\CacheStorageAdapter::class,
+        ],
+    ],
+];
+```
+
+Key: `timeout` - (`int`) The timeout in milliseconds for the circuit breaker fail counter. This is the time after which the circuit breaker will be reset the failures before reaching the `failure_threshold`.
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'timeout' => 10_000,
+        ],
+    ],
+];
+```
+
+Key: `failure_threshold` - (`int`) The number of failures before the circuit breaker is opened. After this threshold is reached, the circuit breaker will be closed and will not allow any requests to pass through until it is reset by the `reset_timeout`.
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'failure_threshold' => 5,
+        ],
+    ],
+];
+```
+
+Key: `reset_timeout` - (`int`) The time in milliseconds after which the circuit breaker will be reset and will allow requests to pass through again. This is the time after which the circuit breaker will be reset and will allow requests to pass through again.
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'reset_timeout' => 30_000,
+        ],
+    ],
+];
+```
+
+Key: `key_prefix` - (`string`) The prefix to use for the circuit breaker keys in the storage. This is useful to avoid key collisions in the storage. _(Only in Cache)_
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'key_prefix' => 'circuit-breaker:',
+        ],
+    ],
+];
+```
+
+Key: `cache_connection` - (`string`) The cache connection to use for the circuit breaker. This can be any cache connection supported by Laravel, plus the custom ones.  _(Only in Cache)_
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'cache_connection' => 'default', // Any cache connection supported by Laravel, plus the custom ones.
+        ],
+    ],
+];
+```
+
+Key: `service` - (`string`) The service to use for the circuit breaker. This must be a class that implements the `\Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface::class`. _(For custom Drivers only)_
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'service' => \Haaragard\CircuitBreaker\Contract\CircuitBreakerInterface::class,
+        ],
+    ],
+];
+```
+
+Key: `config` - (`string`) The configuration class to use for the circuit breaker. This is mandatory for custom drivers and must implement the `\Haaragard\CircuitBreaker\Contract\ConfigInterface::class`. _(For custom Drivers only)_
+```php
+<?php
+// circuit-breaker.php
+
+return [
+    'services' => [
+        'default' => [
+            'config' => \Haaragard\CircuitBreaker\Contract\ConfigInterface::class,
+        ],
+    ],
+];
+```
+
 ### Laravel Custom Cache Drivers
 
 You can use any cache driver supported by Laravel by changing the `driver` key in the configuration file.
